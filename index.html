@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SportsEra</title>
+  <style>
+    :root {
+      --primary: #222;
+      --accent: #28a745;
+      --bg: #f9f9f9;
+      --text: #333;
+    }
+
+    body.dark {
+      --bg: #121212;
+      --text: #eee;
+      --primary: #1f1f1f;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: all 0.3s ease;
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 0.5rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    main {
+      padding: 2rem;
+      display: grid;
+      gap: 2rem;
+    }
+
+    section {
+      padding: 1rem;
+      border-radius: 8px;
+      background: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    body.dark section {
+      background: var(--primary);
+    }
+
+    .newsletter input, .newsletter button {
+      padding: 0.6rem;
+      margin: 0.3rem;
+      width: 70%;
+    }
+
+    .newsletter button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn {
+      background: var(--accent);
+      padding: 0.5rem 1rem;
+      border: none;
+      color: white;
+      margin: 0.5rem;
+      cursor: pointer;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      height: 100vh; width: 100%;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .modal-content input {
+      width: 100%;
+      padding: 0.7rem;
+      margin: 0.5rem 0;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .newsletter input {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    <h1>SportsEra</h1>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">News</a>
+      <a href="#">Transfers</a>
+      <a href="#" onclick="openModal('login')">Login</a>
+      <a href="#" onclick="openModal('signup')">Sign Up</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="welcome">
+      <h2>Welcome to SportsEra</h2>
+      <p>Your hub for all things football—live news, match previews, transfers, and more.</p>
+    </section>
+
+    <section class="newsletter">
+      <h3>Subscribe to our newsletter</h3>
+      <input type="email" id="email" placeholder="Enter your email">
+      <button onclick="subscribe()">Subscribe</button>
+      <p id="status"></p>
+    </section>
+
+    <section class="about">
+      <h3>About Us</h3>
+      <p>We're passionate about football, and we bring you expert analysis, hot takes, and match coverage.</p>
+    </section>
+
+    <section class="contact">
+      <h3>Contact</h3>
+      <p>Email: contact@sportsera.com</p>
+      <p>WhatsApp: +234 000 000 000</p>
+    </section>
+  </main>
+
+  <footer>© 2025 SportsEra. All rights reserved.</footer>
+
+  <!-- Auth Modals -->
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <h3>Login</h3>
+      <input type="email" id="loginEmail" placeholder="Email">
+      <input type="password" id="loginPassword" placeholder="Password">
+      <button class="btn" onclick="login()">Login</button>
+    </div>
+  </div>
+
+  <div class="modal" id="signupModal">
+    <div class="modal-content">
+      <h3>Sign Up</h3>
+      <input type="email" id="signupEmail" placeholder="Email">
+      <input type="password" id="signupPassword" placeholder="Password">
+      <button class="btn" onclick="signup()">Sign Up</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { Client, Account, ID, Databases } from "https://cdn.jsdelivr.net/npm/appwrite@13.0.0/+esm";
+
+    const client = new Client();
+    client.setEndpoint("https://<YOUR-ENDPOINT>").setProject("<YOUR-PROJECT-ID>");
+
+    const account = new Account(client);
+    const databases = new Databases(client);
+    const databaseId = "<YOUR-DATABASE-ID>";
+    const collectionId = "<YOUR-COLLECTION-ID>";
+
+    window.toggleTheme = () => {
+      document.body.classList.toggle("dark");
+    }
+
+    window.openModal = (type) => {
+      document.getElementById(`${type}Modal`).style.display = "flex";
+    }
+
+    window.subscribe = async () => {
+      const email = document.getElementById("email").value;
+      try {
+        await databases.createDocument(databaseId, collectionId, ID.unique(), { email });
+        document.getElementById("status").textContent = "Subscribed!";
+      } catch (err) {
+        document.getElementById("status").textContent = "Failed to subscribe.";
+      }
+    }
+
+    window.login = async () => {
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+      try {
+        await account.createEmailSession(email, password);
+        alert("Logged in!");
+      } catch {
+        alert("Login failed.");
+      }
+    }
+
+    window.signup = async () => {
+      const email = document.getElementById("signupEmail").value;
+      const password = document.getElementById("signupPassword").value;
+      try {
+        await account.create(ID.unique(), email, password);
+        alert("Account created!");
+      } catch {
+        alert("Signup failed.");
+      }
+    }
+
+    // Close modal when clicked outside
+    window.onclick = (e) => {
+      if (e.target.classList.contains("modal")) {
+        e.target.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>
