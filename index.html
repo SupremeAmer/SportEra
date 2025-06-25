@@ -3,113 +3,87 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SportsEra</title>
+  <title>SportEra</title>
+  <link rel="manifest" href="manifest.json">
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <style>
     :root {
-      --primary: #222;
-      --accent: #28a745;
-      --bg: #f9f9f9;
-      --text: #333;
+      --bg: #ffffff;
+      --text: #222;
+      --primary: #ff6a00;
+      --accent: gold;
+      --dark-bg: #121212;
+      --dark-text: #eee;
     }
-
-    body.dark {
-      --bg: #121212;
-      --text: #eee;
-      --primary: #1f1f1f;
-    }
-
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
       background: var(--bg);
       color: var(--text);
-      transition: all 0.3s ease;
+      transition: background 0.3s, color 0.3s;
     }
-
+    body.dark {
+      background: var(--dark-bg);
+      color: var(--dark-text);
+    }
     header {
-      background: var(--primary);
+      background: linear-gradient(45deg, var(--primary), var(--accent));
       color: white;
       padding: 1rem;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-
+    header img {
+      height: 40px;
+    }
     nav a {
       color: white;
-      margin: 0 0.5rem;
       text-decoration: none;
+      margin: 0 0.6rem;
       font-weight: bold;
     }
-
     .theme-toggle {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      cursor: pointer;
       background: transparent;
       border: none;
       color: white;
-      font-size: 1.2rem;
+      font-size: 1.4rem;
+      cursor: pointer;
     }
-
     main {
       padding: 2rem;
-      display: grid;
-      gap: 2rem;
     }
-
     section {
-      padding: 1rem;
+      margin: 2rem 0;
+      padding: 1.5rem;
       border-radius: 8px;
       background: white;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-
     body.dark section {
-      background: var(--primary);
+      background: #1e1e1e;
     }
-
-    .newsletter input, .newsletter button {
-      padding: 0.6rem;
-      margin: 0.3rem;
-      width: 70%;
-    }
-
-    .newsletter button {
-      background: var(--accent);
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    footer {
-      text-align: center;
-      padding: 1rem;
-      background: var(--primary);
-      color: white;
-    }
-
     .btn {
-      background: var(--accent);
-      padding: 0.5rem 1rem;
-      border: none;
+      background: var(--primary);
       color: white;
-      margin: 0.5rem;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 5px;
       cursor: pointer;
+      transition: background 0.2s;
     }
-
+    .btn:hover {
+      background: orangered;
+    }
     .modal {
       display: none;
       position: fixed;
       top: 0; left: 0;
-      height: 100vh; width: 100%;
-      background: rgba(0,0,0,0.7);
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
       justify-content: center;
       align-items: center;
     }
-
     .modal-content {
       background: white;
       padding: 2rem;
@@ -117,64 +91,68 @@
       width: 90%;
       max-width: 400px;
     }
-
-    .modal-content input {
+    input {
       width: 100%;
       padding: 0.7rem;
       margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
     }
-
-    @media (max-width: 768px) {
-      nav {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-      .newsletter input {
-        width: 100%;
-      }
+    footer {
+      text-align: center;
+      background: #333;
+      color: white;
+      padding: 1rem;
+    }
+    .whatsapp-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #25D366;
+      color: white;
+      padding: 0.8rem 1rem;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
   </style>
 </head>
 <body>
   <header>
-    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
-    <h1>SportsEra</h1>
+    <img src="logo.png" alt="SportEra Logo" />
     <nav>
       <a href="#">Home</a>
       <a href="#">News</a>
       <a href="#">Transfers</a>
       <a href="#" onclick="openModal('login')">Login</a>
       <a href="#" onclick="openModal('signup')">Sign Up</a>
+      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
     </nav>
   </header>
 
   <main>
-    <section class="welcome">
-      <h2>Welcome to SportsEra</h2>
-      <p>Your hub for all things football—live news, match previews, transfers, and more.</p>
+    <section data-aos="fade-up">
+      <h2>Welcome to SportEra</h2>
+      <p>Your daily dose of football magic—news, transfers, stats, and more.</p>
     </section>
 
-    <section class="newsletter">
+    <section data-aos="fade-up">
       <h3>Subscribe to our newsletter</h3>
-      <input type="email" id="email" placeholder="Enter your email">
-      <button onclick="subscribe()">Subscribe</button>
+      <input type="email" id="email" placeholder="Your email">
+      <button class="btn" onclick="subscribe()">Subscribe</button>
       <p id="status"></p>
     </section>
 
-    <section class="about">
+    <section data-aos="fade-up">
       <h3>About Us</h3>
-      <p>We're passionate about football, and we bring you expert analysis, hot takes, and match coverage.</p>
-    </section>
-
-    <section class="contact">
-      <h3>Contact</h3>
-      <p>Email: contact@sportsera.com</p>
-      <p>WhatsApp: +234 000 000 000</p>
+      <p>We bring fans the latest football stories, exclusive insights, and legendary moments. Powered by passion, driven by goals.</p>
     </section>
   </main>
 
-  <footer>© 2025 SportsEra. All rights reserved.</footer>
+  <footer>© 2025 SportEra. All rights reserved.</footer>
+
+  <a class="whatsapp-float" href="https://wa.me/234000000000" target="_blank">💬</a>
 
   <!-- Auth Modals -->
   <div class="modal" id="loginModal">
@@ -196,62 +174,70 @@
   </div>
 
   <script type="module">
-    import { Client, Account, ID, Databases } from "https://cdn.jsdelivr.net/npm/appwrite@13.0.0/+esm";
+    import { Client, Account, Databases, ID } from "https://cdn.jsdelivr.net/npm/appwrite@13.0.0/+esm";
 
-    const client = new Client();
-    client.setEndpoint("https://<YOUR-ENDPOINT>").setProject("<YOUR-PROJECT-ID>");
+    const client = new Client()
+      .setEndpoint("https://<YOUR-ENDPOINT>")
+      .setProject("<YOUR-PROJECT-ID>");
 
     const account = new Account(client);
     const databases = new Databases(client);
-    const databaseId = "<YOUR-DATABASE-ID>";
-    const collectionId = "<YOUR-COLLECTION-ID>";
+    const dbID = "<YOUR-DATABASE-ID>";
+    const colID = "<YOUR-COLLECTION-ID>";
 
     window.toggleTheme = () => {
       document.body.classList.toggle("dark");
-    }
+    };
 
     window.openModal = (type) => {
       document.getElementById(`${type}Modal`).style.display = "flex";
-    }
+    };
+
+    window.onclick = (e) => {
+      if (e.target.classList.contains("modal")) {
+        e.target.style.display = "none";
+      }
+    };
 
     window.subscribe = async () => {
       const email = document.getElementById("email").value;
       try {
-        await databases.createDocument(databaseId, collectionId, ID.unique(), { email });
-        document.getElementById("status").textContent = "Subscribed!";
-      } catch (err) {
-        document.getElementById("status").textContent = "Failed to subscribe.";
+        await databases.createDocument(dbID, colID, ID.unique(), { email });
+        document.getElementById("status").textContent = "🎉 Subscribed!";
+      } catch {
+        document.getElementById("status").textContent = "❌ Failed to subscribe.";
       }
-    }
+    };
 
     window.login = async () => {
       const email = document.getElementById("loginEmail").value;
       const password = document.getElementById("loginPassword").value;
       try {
         await account.createEmailSession(email, password);
-        alert("Logged in!");
+        alert("✅ Logged in!");
       } catch {
-        alert("Login failed.");
+        alert("❌ Login failed.");
       }
-    }
+    };
 
     window.signup = async () => {
       const email = document.getElementById("signupEmail").value;
       const password = document.getElementById("signupPassword").value;
       try {
         await account.create(ID.unique(), email, password);
-        alert("Account created!");
+        alert("🎉 Account created!");
       } catch {
-        alert("Signup failed.");
+        alert("❌ Signup failed.");
       }
-    }
+    };
 
-    // Close modal when clicked outside
-    window.onclick = (e) => {
-      if (e.target.classList.contains("modal")) {
-        e.target.style.display = "none";
-      }
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('✅ Service Worker registered'));
     }
   </script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>AOS.init();</script>
 </body>
 </html>
