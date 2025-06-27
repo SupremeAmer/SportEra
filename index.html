@@ -8,106 +8,318 @@
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <style>
     :root {
-      --bg: #ffffff;
-      --text: #222;
+      --bg: #f8f8f8;
+      --text: #181818;
       --primary: #ff6a00;
       --accent: gold;
       --dark-bg: #121212;
       --dark-text: #eee;
+      --card: #fff;
+      --dark-card: #1e1e1e;
+      --border: #ececec;
+      --transition: 0.3s cubic-bezier(.6,.3,.3,1.2);
     }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
       background: var(--bg);
       color: var(--text);
-      transition: background 0.3s, color 0.3s;
+      transition: background var(--transition), color var(--transition);
     }
     body.dark {
       background: var(--dark-bg);
       color: var(--dark-text);
     }
     header {
-      background: linear-gradient(45deg, var(--primary), var(--accent));
-      color: white;
-      padding: 1rem;
+      background: var(--card);
+      border-bottom: 1.5px solid var(--border);
+      padding: 1.2rem 1.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      animation: fadeInDown 0.9s;
     }
-    header img {
-      height: 40px;
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .logo {
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .logo:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+    nav {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
     }
     nav a {
-      color: white;
+      color: var(--text);
       text-decoration: none;
-      margin: 0 0.6rem;
-      font-weight: bold;
+      font-weight: 600;
+      font-size: 1.08rem;
+      transition: color 0.2s;
+      position: relative;
     }
+    nav a::after {
+      content: "";
+      display: block;
+      width: 0%;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.2s;
+      position: absolute;
+      left: 0; bottom: -2px;
+    }
+    nav a:hover::after, nav a.active::after { width: 100%; }
+    nav a:hover, nav a.active { color: var(--primary); }
+
     .theme-toggle {
       background: transparent;
       border: none;
-      color: white;
-      font-size: 1.4rem;
+      color: var(--primary);
+      font-size: 1.6rem;
+      margin-left: 0.5rem;
       cursor: pointer;
+      transition: color 0.2s;
     }
+    body.dark .theme-toggle { color: var(--accent); }
+
     main {
-      padding: 2rem;
+      padding: 2.2rem 1.2rem;
+      max-width: 1100px;
+      margin: auto;
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      gap: 2.2rem;
     }
-    section {
-      margin: 2rem 0;
-      padding: 1.5rem;
-      border-radius: 8px;
-      background: white;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.1rem;
+      margin-bottom: 1.8rem;
     }
-    body.dark section {
-      background: #1e1e1e;
+    @media (max-width: 900px) {
+      .content-grid { grid-template-columns: 1fr; }
+      main { padding: 1.1rem 0.5rem; }
     }
-    .btn {
-      background: var(--primary);
-      color: white;
+    .hero, .about {
+      background: var(--card);
+      border-radius: 10px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      padding: 2rem 1.2rem;
+      min-height: 280px;
+      animation: fadeInUp 0.8s;
+      transition: background var(--transition), color var(--transition);
+    }
+    body.dark .hero, body.dark .about, body.dark .card {
+      background: var(--dark-card);
+      color: var(--dark-text);
+    }
+    .hero h1 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      letter-spacing: 1px;
+    }
+    .hero-cats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.1rem 2.2rem;
+      margin: 1.4rem 0 1rem 0;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    .hero-cats span {
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      color: #fff;
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      box-shadow: 0 1px 8px rgba(255,106,0,0.11);
+      transition: background 0.2s, color 0.2s;
+      margin-bottom: 0.3rem;
+    }
+    .hero-cats span.active, .hero-cats span:hover {
+      background: var(--accent);
+      color: var(--primary);
+    }
+    .card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .card {
+      background: var(--card);
+      border-radius: 9px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      transition: background var(--transition);
+      overflow: hidden;
+    }
+    .card-header-imgs {
+      display: flex;
+      gap: 0.7rem;
+      margin-bottom: 1rem;
+    }
+    .card-header-imgs img {
+      width: 80px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.09);
+      transition: transform 0.22s;
+    }
+    .card-header-imgs img:hover { transform: scale(1.06); }
+    .card-content {
+      padding: 1.1rem 1.1rem 1.3rem 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+    .card-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+    .card-desc {
+      font-size: 1.05rem;
+    }
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      font-size: 1.05rem;
+      margin-top: 0.7rem;
+      user-select: none;
+    }
+    .like-btn, .comment-btn {
+      background: transparent;
       border: none;
-      padding: 0.6rem 1.2rem;
-      border-radius: 5px;
+      cursor: pointer;
+      color: var(--primary);
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: color 0.2s;
+    }
+    .like-btn.liked { color: orangered; }
+    .comment-btn { color: var(--accent); }
+    .comment-section {
+      margin-top: 0.7rem;
+      background: #fafbfc;
+      border-radius: 6px;
+      padding: 0.8rem 0.8rem 0.3rem 0.8rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      display: none;
+      flex-direction: column;
+      gap: 0.4rem;
+      animation: fadeInUp 0.5s;
+    }
+    .comment-section.active { display: flex; }
+    .comment-input-wrap {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.6rem;
+    }
+    .comment-input {
+      flex: 1;
+      padding: 0.5rem 0.7rem;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      font-size: 1rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .comment-input:focus { border: 1.7px solid var(--primary);}
+    .comment-send-btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
       cursor: pointer;
       transition: background 0.2s;
     }
-    .btn:hover {
-      background: orangered;
+    .comment-send-btn:hover { background: var(--accent);}
+    .comment-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
     }
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
-      justify-content: center;
-      align-items: center;
-    }
-    .modal-content {
-      background: white;
-      padding: 2rem;
-      border-radius: 8px;
-      width: 90%;
-      max-width: 400px;
-    }
-    input {
-      width: 100%;
-      padding: 0.7rem;
-      margin: 0.5rem 0;
-      border: 1px solid #ccc;
+    .comment-item {
+      padding: 0.35rem 0.5rem;
+      background: #fff;
       border-radius: 6px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+      font-size: 0.98rem;
+      color: #333;
     }
-    footer {
-      text-align: center;
-      background: #333;
-      color: white;
-      padding: 1rem;
+    body.dark .comment-item { background: #222; color: #eee; }
+    .about h3 { margin-top: 0; }
+    .about p { margin: 0.7rem 0; }
+    .newsletter-float {
+      position: fixed;
+      bottom: 90px;
+      right: 30px;
+      background: var(--card);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.13);
+      border-radius: 10px;
+      padding: 1.4rem 1.2rem;
+      z-index: 1111;
+      min-width: 270px;
+      transition: transform 0.3s, opacity 0.3s;
+      opacity: 1;
+      display: none;
+      animation: fadeInUp 0.5s;
+    }
+    .newsletter-float.active { display: block; }
+    .newsletter-float h4 { margin-top: 0; }
+    .newsletter-float input[type="email"] {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+    .newsletter-float .btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-bottom: 0.7rem;
+      width: 100%;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .newsletter-float .btn:hover { background: orangered;}
+    .newsletter-close {
+      position: absolute;
+      top: 0.7rem; right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.25rem;
+      color: #888;
+      cursor: pointer;
     }
     .whatsapp-float {
       position: fixed;
       bottom: 20px;
-      right: 20px;
+      right: 30px;
       background: #25D366;
       color: white;
       padding: 0.8rem 1rem;
@@ -115,129 +327,327 @@
       font-size: 1.5rem;
       text-decoration: none;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      z-index: 1000;
+      transition: background 0.2s;
+    }
+    .whatsapp-float:hover { background: #128c7e; }
+    footer {
+      text-align: center;
+      background: #222;
+      color: #eee;
+      padding: 1rem;
+      font-size: 1.08rem;
+      border-top: 1.5px solid var(--border);
+      animation: fadeInUp 0.7s;
+    }
+    .footer-links {
+      margin-bottom: 0.4rem;
+      display: flex;
+      justify-content: center;
+      gap: 1.4rem;
+      flex-wrap: wrap;
+      font-size: 1rem;
+    }
+    .footer-links a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.18s;
+    }
+    .footer-links a:hover { color: var(--primary);}
+    .footer-credit {
+      font-size: 1rem;
+      color: #ffd700;
+      margin-top: 0.4rem;
+      font-style: italic;
+    }
+    /* Animation */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    /* Responsive */
+    @media (max-width: 700px) {
+      .content-grid { gap: 1rem; }
+      .hero, .about { padding: 1rem 0.7rem; }
+      .card-header-imgs img { width: 55px; height: 40px; }
+      .newsletter-float { right: 10px; bottom: 80px;}
+      .whatsapp-float { right: 10px;}
     }
   </style>
 </head>
 <body>
   <header>
-    <img src="logo.png" alt="SportEra Logo" />
+    <span class="logo" onclick="openAdminPanel()">SportsEra</span>
     <nav>
-      <a href="#">Home</a>
-      <a href="#">News</a>
-      <a href="#">Transfers</a>
-      <a href="#" onclick="openModal('login')">Login</a>
-      <a href="#" onclick="openModal('signup')">Sign Up</a>
-      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+      <a href="#" class="active" onclick="filterCategory('all', event)">HOME</a>
+      <a href="#" onclick="filterCategory('news', event)">NEWS</a>
+      <a href="#" onclick="filterCategory('transfers', event)">TRANSFERS</a>
+      <a href="#" onclick="filterCategory('updates', event)">UPDATES</a>
+      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
     </nav>
   </header>
-
   <main>
-    <section data-aos="fade-up">
-      <h2>Welcome to SportEra</h2>
-      <p>Your daily dose of football magic—news, transfers, stats, and more.</p>
-    </section>
+    <div class="content-grid">
+      <div class="hero" data-aos="fade-right">
+        <h1>Welcome to SportsEra!</h1>
+        <p>
+          Get the freshest football news, expert analysis, and everything in between.
+          From thrilling derbies to transfer drama, this is where football lives. Stay updated, stay passionate.
+        </p>
+        <div class="hero-cats">
+          <span onclick="filterCategory('news', event)">FOOTBALL NEWS</span>
+          <span onclick="filterCategory('profiles', event)">PLAYER PROFILES</span>
+          <span onclick="filterCategory('previews', event)">MATCH PREVIEWS</span>
+          <span onclick="filterCategory('stats', event)">STATS & ANALYSIS</span>
+          <span onclick="filterCategory('transfers', event)">TRANSFER NEWS</span>
+          <span onclick="filterCategory('tournaments', event)">TOURNAMENTS</span>
+        </div>
+        <h3 style="margin-top:1.2rem;">JOIN THE ERA!</h3>
+        <p>Subscribe to our newsletter and get the top football stories delivered straight to your inbox.</p>
+        <button class="btn" onclick="showNewsletterPopup()">Subscribe</button>
+      </div>
+      <div class="about" data-aos="fade-left">
+        <h3>ABOUT US</h3>
+        <p>
+          Welcome to SportsEra – your ultimate destination for everything football!
+          At SportsEra, we’re passionate about the beautiful game. Our mission is to bring you
+          the latest news, match previews, in-depth analysis, transfer rumors, player spotlights, and more – all in one place.
+          From the English Premier League to the World Cup, we cover it all.
+        </p>
+        <p>
+          Welcome to the era of football.<br/>
+          Welcome to SportsEra.
+        </p>
+        <h4>CONTACT US</h4>
+        <p>
+          We’d love to hear from you!<br/>
+          Email: <a href="mailto:contact@sportsera.com">contact@sportsera.com</a><br/>
+          WhatsApp: +234 000 000 000
+        </p>
+      </div>
+    </div>
 
-    <section data-aos="fade-up">
-      <h3>Subscribe to our newsletter</h3>
-      <input type="email" id="email" placeholder="Your email">
-      <button class="btn" onclick="subscribe()">Subscribe</button>
-      <p id="status"></p>
-    </section>
-
-    <section data-aos="fade-up">
-      <h3>About Us</h3>
-      <p>We bring fans the latest football stories, exclusive insights, and legendary moments. Powered by passion, driven by goals.</p>
-    </section>
+    <div class="card-list" id="contentList">
+      <!-- Dynamic content loaded here -->
+    </div>
   </main>
 
-  <footer>© 2025 SportEra. All rights reserved.</footer>
+  <!-- Newsletter Popup -->
+  <div class="newsletter-float" id="newsletterFloat">
+    <button class="newsletter-close" onclick="closeNewsletterPopup()">✕</button>
+    <h4>Subscribe to Newsletter</h4>
+    <input type="email" id="newsletterEmail" placeholder="Your email" />
+    <button class="btn" onclick="subscribeNewsletter()">Subscribe</button>
+    <div id="newsletterStatus"></div>
+  </div>
 
-  <a class="whatsapp-float" href="https://wa.me/234000000000" target="_blank">💬</a>
+  <a class="whatsapp-float" href="https://wa.me/234000000000" target="_blank" title="Chat on WhatsApp">💬</a>
 
-  <!-- Auth Modals -->
-  <div class="modal" id="loginModal">
-    <div class="modal-content">
-      <h3>Login</h3>
-      <input type="email" id="loginEmail" placeholder="Email">
-      <input type="password" id="loginPassword" placeholder="Password">
-      <button class="btn" onclick="login()">Login</button>
+  <footer>
+    <div class="footer-links">
+      <a href="#" onclick="showPolicy('privacy')">Privacy Policy</a>
+      <a href="#" onclick="showPolicy('terms')">Terms</a>
+    </div>
+    <div class="footer-credit">
+      Designed by Supremeamer
+    </div>
+    <div>© 2025 SportsEra. All rights reserved.</div>
+  </footer>
+
+  <!-- Privacy/Terms Modal -->
+  <div class="modal" id="policyModal">
+    <div class="modal-content" style="max-width:600px;">
+      <button class="newsletter-close" onclick="closePolicyModal()">✕</button>
+      <div id="policyContent"></div>
     </div>
   </div>
 
-  <div class="modal" id="signupModal">
-    <div class="modal-content">
-      <h3>Sign Up</h3>
-      <input type="email" id="signupEmail" placeholder="Email">
-      <input type="password" id="signupPassword" placeholder="Password">
-      <button class="btn" onclick="signup()">Sign Up</button>
-    </div>
-  </div>
+  <!-- AOS Animation -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>AOS.init();</script>
 
+  <!-- Appwrite JS and Main Logic -->
   <script type="module">
-    import { Client, Account, Databases, ID } from "https://cdn.jsdelivr.net/npm/appwrite@13.0.0/+esm";
+    import { Client, Account, Databases, ID, Query, Realtime } from "https://cdn.jsdelivr.net/npm/appwrite@13.0.0/+esm";
 
+    // ==== CONFIGURATION ====
     const client = new Client()
       .setEndpoint("https://<YOUR-ENDPOINT>")
       .setProject("<YOUR-PROJECT-ID>");
-
     const account = new Account(client);
     const databases = new Databases(client);
     const dbID = "<YOUR-DATABASE-ID>";
-    const colID = "<YOUR-COLLECTION-ID>";
+    const colContent = "<CONTENT-COLLECTION-ID>";   // Posts
+    const colComments = "<COMMENT-COLLECTION-ID>";  // Comments
+    const colLikes = "<LIKE-COLLECTION-ID>";        // Likes
+    const colSubs = "<SUBSCRIBER-COLLECTION-ID>";   // Subscribers
 
+    // ==== THEME ====
     window.toggleTheme = () => {
       document.body.classList.toggle("dark");
+      localStorage.setItem('theme', document.body.classList.contains("dark") ? "dark" : "light");
+    };
+    // Persist theme
+    if(localStorage.getItem('theme') === "dark") document.body.classList.add("dark");
+
+    // ==== ADMIN PANEL ====
+    window.openAdminPanel = () => {
+      // You may want to check for admin auth/session here
+      window.location.href = "admin-panel.html";
     };
 
-    window.openModal = (type) => {
-      document.getElementById(`${type}Modal`).style.display = "flex";
+    // ==== CATEGORY FILTER ====
+    let currentCategory = "all";
+    window.filterCategory = (cat, e) => {
+      currentCategory = cat;
+      document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+      if(e && e.target.tagName === "A") e.target.classList.add('active');
+      loadContent();
     };
 
-    window.onclick = (e) => {
-      if (e.target.classList.contains("modal")) {
-        e.target.style.display = "none";
-      }
-    };
-
-    window.subscribe = async () => {
-      const email = document.getElementById("email").value;
-      try {
-        await databases.createDocument(dbID, colID, ID.unique(), { email });
-        document.getElementById("status").textContent = "🎉 Subscribed!";
-      } catch {
-        document.getElementById("status").textContent = "❌ Failed to subscribe.";
-      }
-    };
-
-    window.login = async () => {
-      const email = document.getElementById("loginEmail").value;
-      const password = document.getElementById("loginPassword").value;
-      try {
-        await account.createEmailSession(email, password);
-        alert("✅ Logged in!");
-      } catch {
-        alert("❌ Login failed.");
-      }
-    };
-
-    window.signup = async () => {
-      const email = document.getElementById("signupEmail").value;
-      const password = document.getElementById("signupPassword").value;
-      try {
-        await account.create(ID.unique(), email, password);
-        alert("🎉 Account created!");
-      } catch {
-        alert("❌ Signup failed.");
-      }
-    };
-
-    // Register service worker
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(() => console.log('✅ Service Worker registered'));
+    // ==== LOAD CONTENT ====
+    async function loadContent() {
+      let queries = [];
+      if(currentCategory !== "all") queries.push(Query.equal('category', [currentCategory]));
+      const { documents } = await databases.listDocuments(dbID, colContent, queries);
+      renderContentList(documents);
     }
+    window.loadContent = loadContent;
+
+    // ==== RENDER CONTENT LIST ====
+    function renderContentList(docs) {
+      const el = document.getElementById('contentList');
+      el.innerHTML = "";
+      for (const doc of docs) {
+        el.appendChild(renderContentCard(doc));
+      }
+    }
+
+    // ==== RENDER CONTENT CARD ====
+    function renderContentCard(doc) {
+      // doc: { $id, title, images, description, category, like_count, comment_count }
+      const card = document.createElement('div');
+      card.className = "card";
+      card.innerHTML = `
+        <div class="card-content">
+          <div class="card-header-imgs">
+            <img src="${doc.images?.[0] || 'default1.jpg'}" alt="img1"/>
+            <img src="${doc.images?.[1] || 'default2.jpg'}" alt="img2"/>
+          </div>
+          <div class="card-title">${doc.title}</div>
+          <div class="card-desc">${doc.description}</div>
+          <div class="card-actions">
+            <button class="like-btn" onclick="likeContent('${doc.$id}', this)">
+              ❤️ <span class="like-count">${doc.like_count || 0}</span>
+            </button>
+            <button class="comment-btn" onclick="toggleCommentSection('${doc.$id}')">
+              💬 <span class="comment-count">${doc.comment_count || 0}</span>
+            </button>
+          </div>
+          <div class="comment-section" id="comment-section-${doc.$id}">
+            <div class="comment-input-wrap">
+              <input class="comment-input" id="comment-input-${doc.$id}" placeholder="Add a comment..." />
+              <button class="comment-send-btn" onclick="sendComment('${doc.$id}')">Send</button>
+            </div>
+            <div class="comment-list" id="comment-list-${doc.$id}"></div>
+          </div>
+        </div>
+      `;
+      return card;
+    }
+
+    // ==== LIKE CONTENT ====
+    window.likeContent = async (id, btn) => {
+      // For demo: you may want to restrict one-like-per-visitor via localStorage/session
+      const key = `like_${id}`;
+      if(localStorage.getItem(key)) return;
+      await databases.createDocument(dbID, colLikes, ID.unique(), { contentId: id });
+      localStorage.setItem(key, "1");
+      btn.classList.add("liked");
+    };
+
+    // ==== COMMENT ====
+    window.toggleCommentSection = (id) => {
+      const section = document.getElementById(`comment-section-${id}`);
+      section.classList.toggle("active");
+      if(section.classList.contains("active")) loadComments(id);
+    };
+    async function loadComments(id) {
+      const { documents } = await databases.listDocuments(dbID, colComments, [Query.equal('contentId', [id])]);
+      const list = document.getElementById(`comment-list-${id}`);
+      list.innerHTML = documents.map(c => `<div class="comment-item">${c.text}</div>`).join('');
+    }
+    window.sendComment = async (id) => {
+      const input = document.getElementById(`comment-input-${id}`);
+      const text = input.value.trim();
+      if(!text) return;
+      await databases.createDocument(dbID, colComments, ID.unique(), { contentId: id, text });
+      input.value = "";
+      loadComments(id);
+    };
+
+    // ==== REALTIME UPDATES ====
+    const rt = new Realtime(client);
+    rt.subscribe([`databases.${dbID}.collections.${colLikes}.documents`, `databases.${dbID}.collections.${colComments}.documents`], resp => {
+      // Refresh counts
+      loadContent();
+    });
+
+    // ==== NEWSLETTER POPUP ====
+    let newsletterShown = false;
+    window.showNewsletterPopup = () => {
+      const el = document.getElementById('newsletterFloat');
+      el.classList.add('active');
+    };
+    window.closeNewsletterPopup = () => {
+      document.getElementById('newsletterFloat').classList.remove('active');
+    };
+    // Show on exit intent
+    document.addEventListener('mouseleave', (e) => {
+      if(e.clientY < 0 && !newsletterShown) {
+        newsletterShown = true;
+        showNewsletterPopup();
+      }
+    });
+
+    // ==== SUBSCRIBE NEWSLETTER ====
+    window.subscribeNewsletter = async () => {
+      const email = document.getElementById('newsletterEmail').value;
+      const status = document.getElementById('newsletterStatus');
+      if(!email) return status.textContent = "Please enter your email.";
+      try {
+        await databases.createDocument(dbID, colSubs, ID.unique(), { email });
+        status.textContent = "🎉 Subscribed!";
+      } catch {
+        status.textContent = "❌ Failed to subscribe.";
+      }
+    };
+
+    // ==== FOOTER POLICY MODAL ====
+    window.showPolicy = (type) => {
+      document.getElementById('policyModal').style.display = "flex";
+      document.getElementById('policyContent').innerHTML =
+        type === "privacy"
+        ? `<h3>Privacy Policy</h3><p>We value your privacy. Data is secured and never sold.</p>`
+        : `<h3>Terms of Service</h3><p>Use SportsEra responsibly. All rights reserved.</p>`;
+    };
+    window.closePolicyModal = () => {
+      document.getElementById('policyModal').style.display = "none";
+    };
+    // Modal close on click outside
+    window.onclick = (e) => {
+      if (e.target.classList.contains("modal")) e.target.style.display = "none";
+    };
+
+    // ==== LOAD INITIAL CONTENT ====
+    loadContent();
+
+    // ==== EMAIL NOTIFICATION ON NEW POST (ADMIN) ====
+    // Implement as Appwrite Cloud Function: On new content, send email to all in colSubs.
+
+    // ==== MOBILE MENU (for future improvement) ====
+    // Add a hamburger menu for nav if needed
+
   </script>
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-  <script>AOS.init();</script>
 </body>
 </html>
