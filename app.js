@@ -10,6 +10,17 @@ const colComments = "<COMMENT-COLLECTION-ID>";
 const colLikes = "<LIKE-COLLECTION-ID>";
 const colSubs = "<SUBSCRIBER-COLLECTION-ID>";
 
+// ==== CATEGORIES & ICONS ====
+const categories = [
+  { key: "football-news", label: "Football News", icon: "⚽" },
+  { key: "match-preview", label: "Match Preview", icon: "🎯" },
+  { key: "player-profile", label: "Player Profile", icon: "👤" },
+  { key: "stats-analysis", label: "Stats & Analysis", icon: "📊" },
+  { key: "transfer-rumors", label: "Transfer & Rumors", icon: "🔄" },
+  { key: "tournaments", label: "Tournaments", icon: "🏆" },
+  { key: "fantasy-tips", label: "Fantasy Tips", icon: "🧠" },
+];
+
 // ==== THEME ====
 const themeToggle = document.getElementById('themeToggle');
 themeToggle.onclick = () => {
@@ -20,8 +31,31 @@ if(localStorage.getItem('theme') === "dark") document.body.classList.add("dark")
 
 // ==== MOBILE MENU ====
 const hamburgerBtn = document.getElementById('hamburgerBtn');
-const nav = document.getElementById('mainNav');
+const nav = document.querySelector('header nav');
 hamburgerBtn.onclick = () => nav.classList.toggle('open');
+
+// ==== CATEGORY TABS (render) ====
+const categoryNav = document.getElementById('categoryNav');
+function renderCategoryTabs() {
+  categoryNav.innerHTML = `
+    <button class="cat-btn active" data-category="all"><svg viewBox="0 0 24 24" style="width:1.2em;vertical-align:middle;"><circle cx="12" cy="12" r="10" fill="#ff6a00" opacity=".14"/><circle cx="12" cy="12" r="7" fill="#ff6a00" opacity=".22"/><circle cx="12" cy="12" r="3.5" fill="#ff6a00"/></svg> All</button>
+    ${categories.map(cat => `
+      <button class="cat-btn" data-category="${cat.key}">
+        <span aria-hidden="true" style="font-size:1.18em;">${cat.icon}</span> ${cat.label}
+      </button>
+    `).join("")}
+  `;
+  // Handler
+  [...categoryNav.querySelectorAll(".cat-btn")].forEach(btn => {
+    btn.onclick = function() {
+      [...categoryNav.querySelectorAll(".cat-btn")].forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      currentCategory = this.dataset.category;
+      loadContent();
+    }
+  });
+}
+renderCategoryTabs();
 
 // ==== CONTACT MODAL ====
 const contactBtn = document.getElementById('contactBtn');
@@ -31,18 +65,6 @@ contactBtn.onclick = () => contactModal.style.display = "flex";
 closeContact.onclick = () => contactModal.style.display = "none";
 window.addEventListener("click", e => {
   if (e.target === contactModal) contactModal.style.display = "none";
-});
-
-// ==== CATEGORY FILTER ====
-let currentCategory = "all";
-const catBtns = document.querySelectorAll('.cat-btn, .nav-btn');
-catBtns.forEach(btn => {
-  btn.onclick = function() {
-    catBtns.forEach(b => b.classList.remove('active'));
-    this.classList.add('active');
-    currentCategory = this.dataset.category;
-    loadContent();
-  };
 });
 
 // ==== NEWSLETTER MODAL ====
@@ -56,7 +78,7 @@ window.addEventListener("click", e => {
   if (e.target === newsletterModal) newsletterModal.style.display = "none";
 });
 newsletterSubmit.onclick = async () => {
-  const email = document.getElementById('newsletterEmail').value;
+  const email = document.getElementById('newsletterEmail').value.trim();
   const status = document.getElementById('newsletterStatus');
   if(!email) return status.textContent = "Please enter your email.";
   try {
@@ -85,6 +107,9 @@ closePolicy.onclick = () => policyModal.style.display = "none";
 window.addEventListener("click", e => {
   if (e.target === policyModal) policyModal.style.display = "none";
 });
+
+// ==== FILTER STATE ====
+let currentCategory = "all";
 
 // ==== LOAD CONTENT ====
 const contentList = document.getElementById('contentList');
@@ -126,7 +151,8 @@ function renderContentCard(doc) {
         💬 <span class="comment-count">${doc.comment_count || 0}</span>
       </button>
       <button class="share-btn" onclick="shareContent('${doc.$id}', '${encodeURIComponent(doc.header)}', '${encodeURIComponent(postUrl)}', this)">
-        🔗 Share
+        <svg width="20" height="20" style="vertical-align:middle;" fill="none" stroke="#1e88e5" stroke-width="2"><path d="M4 12v5a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-5M12 16V4m0 0l-3.5 3.5M12 4l3.5 3.5"/></svg>
+        Share
       </button>
     </div>
     <div class="card-desc">${doc.description || ""}</div>
@@ -182,10 +208,12 @@ window.shareContent = (id, header, url, btn) => {
   } else {
     navigator.clipboard.writeText(url).then(() => {
       btn.classList.add('copied');
-      btn.innerHTML = "✅ Copied Link";
+      btn.innerHTML = `<svg width="20" height="20" style="vertical-align:middle;" fill="none" stroke="#2e7d32" stroke-width="2"><path d="M17 8v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><polyline points="7 11 12 6 17 11"/></svg> Copied!`;
       setTimeout(() => {
         btn.classList.remove('copied');
-        btn.innerHTML = "🔗 Share";
+        btn.innerHTML = `
+          <svg width="20" height="20" style="vertical-align:middle;" fill="none" stroke="#1e88e5" stroke-width="2"><path d="M4 12v5a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-5M12 16V4m0 0l-3.5 3.5M12 4l3.5 3.5"/></svg>
+          Share`;
       }, 1300);
     });
   }
