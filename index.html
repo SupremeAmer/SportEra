@@ -3,298 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrushBook</title>
+    <title>My Crush</title>
     <style>
         :root {
-            --primary: #ff4b8b;
-            --secondary: #ff93b9;
-            --light: #fff4f7;
-            --dark: #33272a;
-            --background: #fffffe;
-            --card-background: #fff;
-            --text: #33272a;
-            --text-light: #594a4e;
-            --shadow: rgba(255, 75, 139, 0.15);
-            --success: #4caf50;
-            --warning: #ff9800;
-            --error: #f44336;
-            --radius: 16px;
+            --primary-color: #e91e63;
+            --primary-light: #f8bbd0;
+            --primary-dark: #ad1457;
+            --secondary-color: #03a9f4;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+            --success-color: #4caf50;
+            --error-color: #f44336;
+            --warning-color: #ff9800;
+            --shadow: 0 2px 4px rgba(0,0,0,0.1);
             --transition: all 0.3s ease;
         }
 
         [data-theme="dark"] {
-            --background: #232223;
-            --card-background: #2d2c2d;
-            --text: #fffffe;
-            --text-light: #c8c8c8;
-            --shadow: rgba(0, 0, 0, 0.2);
+            --text-color: #f5f5f5;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --border-color: #333;
+            --shadow: 0 2px 4px rgba(0,0,0,0.4);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: var(--background);
-            color: var(--text);
-            transition: var(--transition);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             line-height: 1.6;
-            padding-bottom: 80px;
+            transition: var(--transition);
+            padding-bottom: 60px; /* Space for bottom nav */
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary-color);
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: inherit;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 16px;
+            width: 100%;
+            max-width: 100%;
+            padding: 0 15px;
         }
 
-        /* Header Styles */
-        header {
-            background-color: var(--card-background);
-            box-shadow: 0 2px 10px var(--shadow);
+        /* Header */
+        .header {
             position: sticky;
             top: 0;
-            z-index: 100;
-            padding: 16px;
-        }
-
-        .header-content {
+            background-color: var(--card-bg);
+            padding: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: var(--shadow);
+            z-index: 100;
         }
 
         .logo {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: bold;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .logo-icon {
-            width: 32px;
-            height: 32px;
-            background-color: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
-
-        .nav-items {
-            display: flex;
-            gap: 16px;
-            align-items: center;
+            color: var(--primary-color);
         }
 
         .theme-toggle {
             background: none;
             border: none;
             cursor: pointer;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--light);
-            color: var(--text);
-            transition: var(--transition);
+            font-size: 1.2rem;
+            color: var(--text-color);
         }
 
-        .theme-toggle:hover {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        /* Button Styles */
-        .btn {
-            padding: 10px 20px;
-            border-radius: var(--radius);
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--secondary);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background-color: var(--light);
-            color: var(--text);
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--secondary);
-            color: white;
-        }
-
-        /* Card Styles */
-        .card {
-            background-color: var(--card-background);
-            border-radius: var(--radius);
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px var(--shadow);
-            transition: var(--transition);
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px var(--shadow);
-        }
-
-        /* Post Composer */
-        .composer {
-            margin: 20px 0;
-        }
-
-        .composer textarea {
-            width: 100%;
-            min-height: 100px;
-            border-radius: var(--radius);
-            padding: 16px;
-            border: 2px solid var(--light);
-            background-color: var(--card-background);
-            color: var(--text);
-            resize: vertical;
-            margin-bottom: 12px;
-            transition: var(--transition);
-        }
-
-        .composer textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .composer-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .visibility-selector {
-            display: flex;
-            gap: 8px;
-        }
-
-        .visibility-btn {
-            padding: 6px 12px;
-            border-radius: 20px;
-            border: 1px solid var(--light);
-            background: transparent;
-            color: var(--text-light);
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: var(--transition);
-        }
-
-        .visibility-btn.active {
-            background-color: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        /* Post Feed */
-        .post {
-            position: relative;
-        }
-
-        .post-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 12px;
-            border: 2px solid var(--primary);
-        }
-
-        .post-user-info {
-            flex-grow: 1;
-        }
-
-        .post-username {
-            font-weight: bold;
-            color: var(--text);
-        }
-
-        .post-time {
-            font-size: 0.8rem;
-            color: var(--text-light);
-        }
-
-        .post-content {
-            margin-bottom: 16px;
-            line-height: 1.5;
-        }
-
-        .post-image {
-            width: 100%;
-            border-radius: var(--radius);
-            margin-bottom: 16px;
-            max-height: 400px;
-            object-fit: cover;
-        }
-
-        .post-actions {
-            display: flex;
-            gap: 16px;
-            padding-top: 12px;
-            border-top: 1px solid var(--light);
-        }
-
-        .post-action {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: none;
-            border: none;
-            color: var(--text-light);
-            cursor: pointer;
-            transition: var(--transition);
-            padding: 4px 8px;
-            border-radius: 4px;
-        }
-
-        .post-action:hover {
-            background-color: var(--light);
-            color: var(--primary);
-        }
-
-        /* Bottom Navigation */
+        /* Navigation */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background-color: var(--card-background);
-            box-shadow: 0 -2px 10px var(--shadow);
+            background-color: var(--card-bg);
             display: flex;
             justify-content: space-around;
-            padding: 12px 0;
+            padding: 10px 0;
+            box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
             z-index: 100;
         }
 
@@ -302,44 +107,147 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            text-decoration: none;
-            color: var(--text-light);
             font-size: 0.8rem;
-            transition: var(--transition);
+            color: var(--text-color);
         }
 
         .nav-item.active {
-            color: var(--primary);
+            color: var(--primary-color);
         }
 
         .nav-icon {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             margin-bottom: 4px;
         }
 
-        .nav-add {
-            background-color: var(--primary);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+        /* Cards */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .post-card {
+            padding: 15px;
+        }
+
+        .user-info {
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: white;
-            margin-top: -25px;
-            box-shadow: 0 4px 10px var(--shadow);
+            margin-bottom: 10px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        .username {
+            font-weight: bold;
+        }
+
+        .timestamp {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .post-content {
+            margin-bottom: 15px;
+        }
+
+        .post-image {
+            width: 100%;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid var(--border-color);
+            padding-top: 10px;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+
+        .action-btn i {
+            margin-right: 5px;
+        }
+
+        .action-btn.liked {
+            color: var(--primary-color);
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
             transition: var(--transition);
         }
 
-        .nav-add:hover {
-            transform: scale(1.1);
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
         }
 
-        /* Auth Forms */
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        /* Pages */
+        .page {
+            display: none;
+            padding: 15px;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Auth pages */
         .auth-container {
             max-width: 400px;
-            margin: 40px auto;
-            padding: 20px;
+            margin: 30px auto;
         }
 
         .auth-tabs {
@@ -350,412 +258,853 @@
         .auth-tab {
             flex: 1;
             text-align: center;
-            padding: 12px;
-            background-color: var(--light);
+            padding: 10px;
+            border-bottom: 2px solid transparent;
             cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .auth-tab:first-child {
-            border-radius: var(--radius) 0 0 var(--radius);
-        }
-
-        .auth-tab:last-child {
-            border-radius: 0 var(--radius) var(--radius) 0;
         }
 
         .auth-tab.active {
-            background-color: var(--primary);
-            color: white;
+            border-bottom-color: var(--primary-color);
+            font-weight: bold;
         }
 
-        .auth-form {
-            display: none;
+        /* Messages */
+        .message-thread {
+            height: calc(100vh - 130px);
+            overflow-y: auto;
         }
 
-        .auth-form.active {
-            display: block;
+        .message {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
         }
 
-        .form-group {
-            margin-bottom: 16px;
+        .message.sent {
+            background-color: var(--primary-light);
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
+        .message.received {
+            background-color: var(--card-bg);
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
         }
 
-        .form-group input {
-            width: 100%;
-            padding: 12px 16px;
-            border-radius: var(--radius);
-            border: 2px solid var(--light);
-            background-color: var(--card-background);
-            color: var(--text);
-            transition: var(--transition);
+        .message-input {
+            display: flex;
+            padding: 10px;
+            background-color: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            position: fixed;
+            bottom: 60px;
+            left: 0;
+            right: 0;
         }
 
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--primary);
+        .message-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            margin-right: 10px;
         }
 
-        /* Responsive Design */
-        @media (min-width: 768px) {
-            .posts-grid {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-            
-            .bottom-nav {
-                display: none;
-            }
+        /* Notifications */
+        .notification-item {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        @media (min-width: 1024px) {
-            .posts-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            .main-content {
-                display: grid;
-                grid-template-columns: 1fr 2fr 1fr;
-                gap: 20px;
-            }
-            
-            .sidebar {
-                display: block;
-            }
+        .notification-item.unread {
+            background-color: var(--primary-light);
         }
 
-        /* Animations */
-        @keyframes heartBeat {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.3); }
-            100% { transform: scale(1); }
+        /* Profile */
+        .profile-header {
+            text-align: center;
+            padding: 20px;
         }
 
-        .heart-animation {
-            animation: heartBeat 0.5s ease-in-out;
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
         }
 
-        /* Utility Classes */
-        .hidden {
-            display: none;
+        .profile-stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 15px;
         }
 
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        /* Utilities */
         .text-center {
             text-align: center;
         }
 
-        .mt-20 {
-            margin-top: 20px;
+        .mt-1 { margin-top: 10px; }
+        .mt-2 { margin-top: 20px; }
+        .mb-1 { margin-bottom: 10px; }
+        .mb-2 { margin-bottom: 20px; }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+            .bottom-nav {
+                display: none;
+            }
+
+            .desktop-nav {
+                display: flex;
+            }
+
+            body {
+                padding-bottom: 0;
+            }
         }
 
-        .mb-20 {
-            margin-bottom: 20px;
+        /* Loading spinner */
+        .spinner {
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Modal */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            padding: 20px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container header-content">
-            <div class="logo">
-                <span class="logo-icon">❤</span>
-                <span>CrushBook</span>
-            </div>
-            <div class="nav-items">
-                <button class="theme-toggle" id="themeToggle">🌙</button>
-                <button class="btn btn-primary" id="loginBtn">Login</button>
-            </div>
-        </div>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">My Crush</div>
+        <button class="theme-toggle" id="themeToggle">🌙</button>
     </header>
 
+    <!-- Main Content -->
     <main class="container">
-        <!-- Guest View -->
-        <div id="guestView">
+        <!-- Home/Feed Page -->
+        <section id="homePage" class="page active">
+            <h2 class="text-center">Your Feed</h2>
+            <div id="feedContainer">
+                <div class="spinner"></div>
+            </div>
+        </section>
+
+        <!-- Messages Page -->
+        <section id="messagesPage" class="page">
+            <h2 class="text-center">Messages</h2>
+            <div id="messagesContainer">
+                <div class="spinner"></div>
+            </div>
+        </section>
+
+        <!-- New Post Page -->
+        <section id="newPostPage" class="page">
+            <h2 class="text-center">Create Post</h2>
+            <form id="newPostForm">
+                <div class="form-group">
+                    <textarea class="form-input form-textarea" id="postContent" placeholder="What's on your mind? (280 characters max)" maxlength="280" required></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="file" id="postImage" accept="image/*" class="form-input">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Post</button>
+            </form>
+        </section>
+
+        <!-- Notifications Page -->
+        <section id="notificationsPage" class="page">
+            <h2 class="text-center">Notifications</h2>
+            <div id="notificationsContainer">
+                <div class="spinner"></div>
+            </div>
+        </section>
+
+        <!-- Profile Page -->
+        <section id="profilePage" class="page">
+            <div class="profile-header">
+                <img src="" alt="Profile" class="profile-avatar" id="profileAvatar">
+                <h2 id="profileName">User Name</h2>
+                <p id="profileBio">Bio goes here</p>
+                <button class="btn btn-primary mt-1" id="editProfileBtn">Edit Profile</button>
+            </div>
+            <div class="profile-stats">
+                <div class="stat">
+                    <div class="stat-value" id="postsCount">0</div>
+                    <div class="stat-label">Posts</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="followingCount">0</div>
+                    <div class="stat-label">Following</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="followersCount">0</div>
+                    <div class="stat-label">Followers</div>
+                </div>
+            </div>
+            <div id="userPostsContainer">
+                <div class="spinner"></div>
+            </div>
+        </section>
+
+        <!-- Auth Pages -->
+        <section id="authPage" class="page">
             <div class="auth-container">
                 <div class="auth-tabs">
                     <div class="auth-tab active" data-tab="login">Login</div>
                     <div class="auth-tab" data-tab="register">Register</div>
                 </div>
                 
-                <form class="auth-form active" id="loginForm">
+                <form id="loginForm" class="auth-form">
                     <div class="form-group">
-                        <label for="loginEmail">Email</label>
-                        <input type="email" id="loginEmail" placeholder="Your email" required>
+                        <input type="email" class="form-input" placeholder="Email" required>
                     </div>
                     <div class="form-group">
-                        <label for="loginPassword">Password</label>
-                        <input type="password" id="loginPassword" placeholder="Your password" required>
+                        <input type="password" class="form-input" placeholder="Password" required>
                     </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
-                    <div class="text-center mt-20">
-                        <p>Or continue as guest</p>
-                        <button type="button" class="btn btn-secondary" id="guestBtn">Continue as Guest</button>
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                    <div class="text-center mt-2">
+                        <button type="button" class="btn btn-secondary" id="googleLogin">Login with Google</button>
+                    </div>
+                    <div class="text-center mt-2">
+                        <button type="button" id="continueAsGuest">Continue as Guest</button>
                     </div>
                 </form>
-                
-                <form class="auth-form" id="registerForm">
+
+                <form id="registerForm" class="auth-form" style="display: none;">
                     <div class="form-group">
-                        <label for="registerName">Full Name</label>
-                        <input type="text" id="registerName" placeholder="Your name" required>
+                        <input type="text" class="form-input" placeholder="Full Name" required>
                     </div>
                     <div class="form-group">
-                        <label for="registerEmail">Email</label>
-                        <input type="email" id="registerEmail" placeholder="Your email" required>
+                        <input type="email" class="form-input" placeholder="Email" required>
                     </div>
                     <div class="form-group">
-                        <label for="registerPassword">Password</label>
-                        <input type="password" id="registerPassword" placeholder="Create a password" required>
+                        <input type="password" class="form-input" placeholder="Password" required>
                     </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+                    <button type="submit" class="btn btn-primary btn-block">Register</button>
                 </form>
             </div>
-        </div>
-
-        <!-- Authenticated View -->
-        <div id="authenticatedView" class="hidden">
-            <div class="main-content">
-                <aside class="sidebar">
-                    <div class="card">
-                        <div class="post-header">
-                            <img src="https://via.placeholder.com/50" alt="Profile" class="avatar">
-                            <div class="post-user-info">
-                                <div class="post-username">Your Name</div>
-                                <div class="post-time">@username</div>
-                            </div>
-                        </div>
-                        <p class="post-content">Your bio goes here. Something cute and short!</p>
-                        <div class="post-actions">
-                            <button class="post-action">
-                                <span>125</span> Followers
-                            </button>
-                            <button class="post-action">
-                                <span>86</span> Following
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <h3>Your Crush</h3>
-                        <div class="post-header mt-20">
-                            <img src="https://via.placeholder.com/40" alt="Crush" class="avatar">
-                            <div class="post-user-info">
-                                <div class="post-username">Crush Name</div>
-                                <div class="post-time">@crush</div>
-                            </div>
-                        </div>
-                        <button class="btn btn-secondary" style="width: 100%; margin-top: 16px;">
-                            Change Crush
-                        </button>
-                    </div>
-                </aside>
-
-                <div class="content">
-                    <div class="composer card">
-                        <textarea placeholder="Share something about your crush..."></textarea>
-                        <div class="composer-actions">
-                            <div class="visibility-selector">
-                                <button class="visibility-btn active">Public</button>
-                                <button class="visibility-btn">Crush</button>
-                                <button class="visibility-btn">Private</button>
-                            </div>
-                            <button class="btn btn-primary">Post</button>
-                        </div>
-                    </div>
-
-                    <div class="posts-grid" id="postsContainer">
-                        <!-- Posts will be loaded here -->
-                        <div class="post card">
-                            <div class="post-header">
-                                <img src="https://via.placeholder.com/40" alt="User" class="avatar">
-                                <div class="post-user-info">
-                                    <div class="post-username">User Name</div>
-                                    <div class="post-time">2 hours ago</div>
-                                </div>
-                            </div>
-                            <p class="post-content">I saw my crush today at the coffee shop. They smiled at me and my heart skipped a beat! ☕️❤️</p>
-                            <div class="post-actions">
-                                <button class="post-action">❤️ 12</button>
-                                <button class="post-action">💬 3</button>
-                                <button class="post-action">🔗</button>
-                            </div>
-                        </div>
-
-                        <div class="post card">
-                            <div class="post-header">
-                                <img src="https://via.placeholder.com/40" alt="User" class="avatar">
-                                <div class="post-user-info">
-                                    <div class="post-username">Another User</div>
-                                    <div class="post-time">5 hours ago</div>
-                                </div>
-                            </div>
-                            <p class="post-content">My crush liked my post! I'm so happy right now! 😍</p>
-                            <img src="https://via.placeholder.com/400x300" alt="Post" class="post-image">
-                            <div class="post-actions">
-                                <button class="post-action">❤️ 24</button>
-                                <button class="post-action">💬 7</button>
-                                <button class="post-action">🔗</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <aside class="sidebar">
-                    <div class="card">
-                        <h3>Notifications</h3>
-                        <div class="notification-item">
-                            <p>Your crush liked your post</p>
-                            <small>10 minutes ago</small>
-                        </div>
-                        <div class="notification-item">
-                            <p>Someone commented on your post</p>
-                            <small>30 minutes ago</small>
-                        </div>
-                        <button class="btn btn-secondary" style="width: 100%; margin-top: 16px;">
-                            View All
-                        </button>
-                    </div>
-
-                    <div class="card">
-                        <h3>Suggestions</h3>
-                        <div class="suggestion-item">
-                            <div class="post-header">
-                                <img src="https://via.placeholder.com/40" alt="User" class="avatar">
-                                <div class="post-user-info">
-                                    <div class="post-username">Suggested User</div>
-                                    <div class="post-time">@suggested</div>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary" style="width: 100%; margin-top: 8px;">
-                                Follow
-                            </button>
-                        </div>
-                    </div>
-                </aside>
-            </div>
-        </div>
+        </section>
     </main>
 
-    <div class="bottom-nav">
-        <a href="#" class="nav-item active">
-            <span class="nav-icon">🏠</span>
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" data-page="homePage">
+            <div class="nav-icon">🏠</div>
             <span>Home</span>
-        </a>
-        <a href="#" class="nav-item">
-            <span class="nav-icon">💬</span>
+        </div>
+        <div class="nav-item" data-page="messagesPage">
+            <div class="nav-icon">💬</div>
             <span>Messages</span>
-        </a>
-        <a href="#" class="nav-add">+</a>
-        <a href="#" class="nav-item">
-            <span class="nav-icon">🔔</span>
+        </div>
+        <div class="nav-item" data-page="newPostPage">
+            <div class="nav-icon">✏️</div>
+            <span>New Post</span>
+        </div>
+        <div class="nav-item" data-page="notificationsPage">
+            <div class="nav-icon">🔔</div>
             <span>Notifications</span>
-        </a>
-        <a href="#" class="nav-item">
-            <span class="nav-icon">👤</span>
+        </div>
+        <div class="nav-item" data-page="profilePage">
+            <div class="nav-icon">👤</div>
             <span>Profile</span>
-        </a>
+        </div>
+    </nav>
+
+    <!-- Edit Profile Modal (will be shown/hidden via JS) -->
+    <div class="modal-backdrop" id="editProfileModal" style="display: none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Edit Profile</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <form id="editProfileForm">
+                <div class="form-group">
+                    <input type="text" class="form-input" id="editDisplayName" placeholder="Display Name" required>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-input form-textarea" id="editBio" placeholder="Bio"></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="file" id="editAvatar" accept="image/*" class="form-input">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+            </form>
+        </div>
     </div>
 
     <script>
-        // Appwrite Configuration (to be replaced with actual values)
+        // Appwrite Configuration (replace with your actual values)
         const APPWRITE_ENDPOINT = 'https://cloud.appwrite.io/v1';
-        const APPWRITE_PROJECT_ID = 'your-project-id';
-        const APPWRITE_PLATFORM_WEB_ID = 'your-web-platform-id';
+        const APPWRITE_PROJECT_ID = 'your_project_id';
+        const APPWRITE_PLATFORM_WEB_ID = 'your_platform_web_id';
+
+        // Appwrite Database IDs
+        const DATABASE_ID = 'mycrush_db';
+        const USERS_COLLECTION_ID = 'users';
+        const POSTS_COLLECTION_ID = 'posts';
+        const COMMENTS_COLLECTION_ID = 'comments';
+        const FOLLOWS_COLLECTION_ID = 'follows';
+        const MESSAGES_COLLECTION_ID = 'messages';
+
+        // Appwrite Storage Bucket IDs
+        const AVATARS_BUCKET_ID = 'avatars_bucket';
+        const POST_IMAGES_BUCKET_ID = 'post_images_bucket';
+
+        // State Management
+        let currentUser = null;
+        let currentTheme = localStorage.getItem('theme') || 'light';
 
         // DOM Elements
+        const pages = document.querySelectorAll('.page');
+        const navItems = document.querySelectorAll('.nav-item');
         const themeToggle = document.getElementById('themeToggle');
-        const loginBtn = document.getElementById('loginBtn');
-        const guestBtn = document.getElementById('guestBtn');
-        const guestView = document.getElementById('guestView');
-        const authenticatedView = document.getElementById('authenticatedView');
-        const authTabs = document.querySelectorAll('.auth-tab');
-        const authForms = document.querySelectorAll('.auth-form');
 
-        // Theme Management
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', currentTheme);
-        themeToggle.textContent = currentTheme === 'light' ? '🌙' : '☀️';
+        // Initialize the app
+        function initApp() {
+            // Set the theme
+            setTheme(currentTheme);
+            
+            // Check if user is logged in
+            checkAuthStatus();
+            
+            // Set up event listeners
+            setupEventListeners();
+        }
 
-        themeToggle.addEventListener('click', () => {
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            themeToggle.textContent = newTheme === 'light' ? '🌙' : '☀️';
-        });
+        // Set theme function
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            themeToggle.textContent = theme === 'light' ? '🌙' : '☀️';
+        }
 
-        // Auth Tabs
-        authTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const tabId = tab.getAttribute('data-tab');
-                
-                authTabs.forEach(t => t.classList.remove('active'));
-                authForms.forEach(f => f.classList.remove('active'));
-                
-                tab.classList.add('active');
-                document.getElementById(`${tabId}Form`).classList.add('active');
-            });
-        });
-
-        // Login Simulation
-        loginBtn.addEventListener('click', () => {
-            guestView.classList.remove('hidden');
-            authenticatedView.classList.add('hidden');
-        });
-
-        guestBtn.addEventListener('click', () => {
-            // Simulate guest access
-            guestView.classList.add('hidden');
-            authenticatedView.classList.remove('hidden');
-        });
-
-        document.getElementById('loginForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            // Simulate login
-            guestView.classList.add('hidden');
-            authenticatedView.classList.remove('hidden');
-        });
-
-        document.getElementById('registerForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            // Simulate registration and login
-            guestView.classList.add('hidden');
-            authenticatedView.classList.remove('hidden');
-        });
-
-        // Like button functionality
-        document.addEventListener('click', (e) => {
-            if (e.target.closest('.post-action')) {
-                const actionBtn = e.target.closest('.post-action');
-                if (actionBtn.textContent.includes('❤')) {
-                    actionBtn.classList.toggle('heart-animation');
-                    
-                    // Simulate like count update
-                    const likeCount = actionBtn.querySelector('span') || actionBtn;
-                    let count = parseInt(likeCount.textContent) || 0;
-                    
-                    if (actionBtn.classList.contains('liked')) {
-                        count--;
-                        actionBtn.classList.remove('liked');
-                    } else {
-                        count++;
-                        actionBtn.classList.add('liked');
-                    }
-                    
-                    likeCount.textContent = count;
-                }
+        // Check authentication status
+        function checkAuthStatus() {
+            // For demo purposes, we'll check if there's a user in localStorage
+            const userData = localStorage.getItem('currentUser');
+            if (userData) {
+                currentUser = JSON.parse(userData);
+                showPage('homePage');
+                loadFeed();
+            } else {
+                showPage('authPage');
             }
-        });
+        }
 
-        // Simulate Appwrite initialization
-        console.log('App would initialize with:');
-        console.log('Endpoint:', APPWRITE_ENDPOINT);
-        console.log('Project ID:', APPWRITE_PROJECT_ID);
-        console.log('Platform Web ID:', APPWRITE_PLATFORM_WEB_ID);
+        // Show specific page
+        function showPage(pageId) {
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update navigation
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('data-page') === pageId) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Navigation
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const pageId = item.getAttribute('data-page');
+                    showPage(pageId);
+                    
+                    // Load content for the page if needed
+                    if (pageId === 'homePage') loadFeed();
+                    if (pageId === 'profilePage') loadProfile();
+                    if (pageId === 'notificationsPage') loadNotifications();
+                    if (pageId === 'messagesPage') loadMessages();
+                });
+            });
+            
+            // Theme toggle
+            themeToggle.addEventListener('click', () => {
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                setTheme(newTheme);
+                currentTheme = newTheme;
+            });
+            
+            // Auth tabs
+            const authTabs = document.querySelectorAll('.auth-tab');
+            authTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabName = tab.getAttribute('data-tab');
+                    authTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    if (tabName === 'login') {
+                        document.getElementById('loginForm').style.display = 'block';
+                        document.getElementById('registerForm').style.display = 'none';
+                    } else {
+                        document.getElementById('loginForm').style.display = 'none';
+                        document.getElementById('registerForm').style.display = 'block';
+                    }
+                });
+            });
+            
+            // Login form
+            document.getElementById('loginForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                // In a real app, this would call the Appwrite API
+                const email = e.target.querySelector('input[type="email"]').value;
+                const password = e.target.querySelector('input[type="password"]').value;
+                
+                // Mock login for demo
+                mockLogin(email);
+            });
+            
+            // Register form
+            document.getElementById('registerForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                // In a real app, this would call the Appwrite API
+                const name = e.target.querySelector('input[type="text"]').value;
+                const email = e.target.querySelector('input[type="email"]').value;
+                const password = e.target.querySelector('input[type="password"]').value;
+                
+                // Mock registration for demo
+                mockRegister(name, email);
+            });
+            
+            // Google login
+            document.getElementById('googleLogin').addEventListener('click', () => {
+                // This would redirect to Google OAuth in a real app
+                alert('Google login would be implemented here');
+            });
+            
+            // Continue as guest
+            document.getElementById('continueAsGuest').addEventListener('click', () => {
+                currentUser = null;
+                showPage('homePage');
+                loadFeed();
+            });
+            
+            // New post form
+            document.getElementById('newPostForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const content = document.getElementById('postContent').value;
+                const imageFile = document.getElementById('postImage').files[0];
+                
+                createPost(content, imageFile);
+            });
+            
+            // Edit profile button
+            document.getElementById('editProfileBtn').addEventListener('click', () => {
+                document.getElementById('editProfileModal').style.display = 'flex';
+            });
+            
+            // Close modal button
+            document.querySelector('.close-btn').addEventListener('click', () => {
+                document.getElementById('editProfileModal').style.display = 'none';
+            });
+            
+            // Edit profile form
+            document.getElementById('editProfileForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const displayName = document.getElementById('editDisplayName').value;
+                const bio = document.getElementById('editBio').value;
+                const avatarFile = document.getElementById('editAvatar').files[0];
+                
+                updateProfile(displayName, bio, avatarFile);
+            });
+        }
+
+        // Mock login function (would use Appwrite in real implementation)
+        function mockLogin(email) {
+            // Simulate API call delay
+            setTimeout(() => {
+                currentUser = {
+                    id: 'user1',
+                    name: 'Demo User',
+                    email: email,
+                    bio: 'This is my bio',
+                    avatar: 'https://via.placeholder.com/100'
+                };
+                
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                showPage('homePage');
+                loadFeed();
+            }, 1000);
+        }
+
+        // Mock registration function
+        function mockRegister(name, email) {
+            // Simulate API call delay
+            setTimeout(() => {
+                currentUser = {
+                    id: 'user' + Math.floor(Math.random() * 1000),
+                    name: name,
+                    email: email,
+                    bio: '',
+                    avatar: 'https://via.placeholder.com/100'
+                };
+                
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                showPage('homePage');
+                loadFeed();
+            }, 1000);
+        }
+
+        // Load feed posts
+        function loadFeed() {
+            const feedContainer = document.getElementById('feedContainer');
+            feedContainer.innerHTML = '<div class="spinner"></div>';
+            
+            // In a real app, this would fetch posts from Appwrite
+            setTimeout(() => {
+                const mockPosts = [
+                    {
+                        id: 'post1',
+                        userId: 'user2',
+                        userName: 'Jane Doe',
+                        userAvatar: 'https://via.placeholder.com/40',
+                        content: 'Just had the best coffee ever! ☕️ #coffee #morning',
+                        image: '',
+                        likes: 15,
+                        comments: 3,
+                        timestamp: '2 hours ago',
+                        liked: false
+                    },
+                    {
+                        id: 'post2',
+                        userId: 'user3',
+                        userName: 'John Smith',
+                        userAvatar: 'https://via.placeholder.com/40',
+                        content: 'Beautiful sunset at the beach today 🌅',
+                        image: 'https://via.placeholder.com/400x300',
+                        likes: 42,
+                        comments: 7,
+                        timestamp: '5 hours ago',
+                        liked: true
+                    }
+                ];
+                
+                feedContainer.innerHTML = '';
+                mockPosts.forEach(post => {
+                    feedContainer.appendChild(createPostElement(post));
+                });
+            }, 1000);
+        }
+
+        // Create post element
+        function createPostElement(post) {
+            const postEl = document.createElement('div');
+            postEl.className = 'card post-card';
+            postEl.innerHTML = `
+                <div class="user-info">
+                    <img src="${post.userAvatar}" alt="${post.userName}" class="avatar">
+                    <div>
+                        <div class="username">${post.userName}</div>
+                        <div class="timestamp">${post.timestamp}</div>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <p>${post.content}</p>
+                    ${post.image ? `<img src="${post.image}" alt="Post image" class="post-image">` : ''}
+                </div>
+                <div class="post-actions">
+                    <button class="action-btn ${post.liked ? 'liked' : ''}" data-post-id="${post.id}">
+                        <i>❤️</i> <span>${post.likes}</span>
+                    </button>
+                    <button class="action-btn">
+                        <i>💬</i> <span>${post.comments}</span>
+                    </button>
+                    <button class="action-btn">
+                        <i>↗️</i>
+                    </button>
+                </div>
+            `;
+            
+            // Add like functionality
+            const likeBtn = postEl.querySelector('.action-btn');
+            likeBtn.addEventListener('click', () => {
+                toggleLike(post.id);
+            });
+            
+            return postEl;
+        }
+
+        // Toggle like on a post
+        function toggleLike(postId) {
+            // In a real app, this would call the Appwrite API
+            console.log('Toggling like for post:', postId);
+        }
+
+        // Create a new post
+        function createPost(content, imageFile) {
+            // In a real app, this would call the Appwrite API
+            console.log('Creating post:', content, imageFile);
+            
+            // Reset form
+            document.getElementById('newPostForm').reset();
+            
+            // Show success message and go back to feed
+            alert('Post created successfully!');
+            showPage('homePage');
+            loadFeed(); // Reload feed to show the new post
+        }
+
+        // Load user profile
+        function loadProfile() {
+            if (!currentUser) return;
+            
+            // Update profile info
+            document.getElementById('profileName').textContent = currentUser.name;
+            document.getElementById('profileBio').textContent = currentUser.bio;
+            document.getElementById('profileAvatar').src = currentUser.avatar;
+            
+            // Load user's posts
+            const postsContainer = document.getElementById('userPostsContainer');
+            postsContainer.innerHTML = '<div class="spinner"></div>';
+            
+            // In a real app, this would fetch user's posts from Appwrite
+            setTimeout(() => {
+                const mockUserPosts = [
+                    {
+                        id: 'userpost1',
+                        content: 'This is my first post!',
+                        image: '',
+                        likes: 10,
+                        comments: 2,
+                        timestamp: '3 days ago'
+                    },
+                    {
+                        id: 'userpost2',
+                        content: 'Having a great time at the park today!',
+                        image: 'https://via.placeholder.com/400x300',
+                        likes: 24,
+                        comments: 5,
+                        timestamp: '1 week ago'
+                    }
+                ];
+                
+                postsContainer.innerHTML = '';
+                mockUserPosts.forEach(post => {
+                    const postEl = document.createElement('div');
+                    postEl.className = 'card post-card';
+                    postEl.innerHTML = `
+                        <div class="post-content">
+                            <p>${post.content}</p>
+                            ${post.image ? `<img src="${post.image}" alt="Post image" class="post-image">` : ''}
+                        </div>
+                        <div class="post-actions">
+                            <button class="action-btn">
+                                <i>❤️</i> <span>${post.likes}</span>
+                            </button>
+                            <button class="action-btn">
+                                <i>💬</i> <span>${post.comments}</span>
+                            </button>
+                            <div class="timestamp">${post.timestamp}</div>
+                        </div>
+                    `;
+                    postsContainer.appendChild(postEl);
+                });
+            }, 1000);
+        }
+
+        // Update user profile
+        function updateProfile(displayName, bio, avatarFile) {
+            // In a real app, this would call the Appwrite API
+            console.log('Updating profile:', displayName, bio, avatarFile);
+            
+            // Update current user
+            currentUser.name = displayName;
+            currentUser.bio = bio;
+            if (avatarFile) {
+                // In a real app, this would upload the image to Appwrite Storage
+                currentUser.avatar = URL.createObjectURL(avatarFile);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            // Update UI
+            document.getElementById('profileName').textContent = displayName;
+            document.getElementById('profileBio').textContent = bio;
+            document.getElementById('profileAvatar').src = currentUser.avatar;
+            
+            // Close modal
+            document.getElementById('editProfileModal').style.display = 'none';
+            
+            alert('Profile updated successfully!');
+        }
+
+        // Load notifications
+        function loadNotifications() {
+            const notificationsContainer = document.getElementById('notificationsContainer');
+            notificationsContainer.innerHTML = '<div class="spinner"></div>';
+            
+            // In a real app, this would fetch notifications from Appwrite
+            setTimeout(() => {
+                const mockNotifications = [
+                    {
+                        id: 'notif1',
+                        type: 'like',
+                        message: 'Jane Doe liked your post',
+                        timestamp: '10 minutes ago',
+                        read: false
+                    },
+                    {
+                        id: 'notif2',
+                        type: 'comment',
+                        message: 'John Smith commented on your post',
+                        timestamp: '2 hours ago',
+                        read: true
+                    },
+                    {
+                        id: 'notif3',
+                        type: 'follow',
+                        message: 'Sarah Johnson started following you',
+                        timestamp: '1 day ago',
+                        read: true
+                    }
+                ];
+                
+                notificationsContainer.innerHTML = '';
+                mockNotifications.forEach(notif => {
+                    const notifEl = document.createElement('div');
+                    notifEl.className = `card notification-item ${notif.read ? '' : 'unread'}`;
+                    notifEl.innerHTML = `
+                        <p>${notif.message}</p>
+                        <div class="timestamp">${notif.timestamp}</div>
+                    `;
+                    notificationsContainer.appendChild(notifEl);
+                });
+            }, 1000);
+        }
+
+        // Load messages
+        function loadMessages() {
+            const messagesContainer = document.getElementById('messagesContainer');
+            messagesContainer.innerHTML = '<div class="spinner"></div>';
+            
+            // In a real app, this would fetch messages from Appwrite
+            setTimeout(() => {
+                const mockConversations = [
+                    {
+                        id: 'conv1',
+                        userId: 'user2',
+                        userName: 'Jane Doe',
+                        userAvatar: 'https://via.placeholder.com/40',
+                        lastMessage: 'Hey, how are you?',
+                        timestamp: '2 hours ago',
+                        unread: 3
+                    },
+                    {
+                        id: 'conv2',
+                        userId: 'user3',
+                        userName: 'John Smith',
+                        userAvatar: 'https://via.placeholder.com/40',
+                        lastMessage: 'See you tomorrow!',
+                        timestamp: '1 day ago',
+                        unread: 0
+                    }
+                ];
+                
+                messagesContainer.innerHTML = '';
+                mockConversations.forEach(conv => {
+                    const convEl = document.createElement('div');
+                    convEl.className = 'card';
+                    convEl.style.padding = '15px';
+                    convEl.style.marginBottom = '10px';
+                    convEl.innerHTML = `
+                        <div style="display: flex; align-items: center;">
+                            <img src="${conv.userAvatar}" alt="${conv.userName}" class="avatar">
+                            <div style="flex: 1; margin-left: 10px;">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <div class="username">${conv.userName}</div>
+                                    <div class="timestamp">${conv.timestamp}</div>
+                                </div>
+                                <p>${conv.lastMessage}</p>
+                            </div>
+                            ${conv.unread > 0 ? `<span style="background: var(--primary-color); color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">${conv.unread}</span>` : ''}
+                        </div>
+                    `;
+                    messagesContainer.appendChild(convEl);
+                });
+            }, 1000);
+        }
+
+        // Initialize the app when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
